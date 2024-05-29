@@ -34,19 +34,19 @@ list_of_dish = []
 count = int(input_1[0])
 
 
-def read_dish(inpt, cnt):
-    split_input = inpt.split()
+def read_dish(input_str, cnt):
+    split_input = input_str.split()
     dish = split_input[0]
     len_ingredient = int(split_input[2]) * 3
     if dish not in dish_dict:
-        quant = []
+        quantity = []
         lst = []
-        quant.append(split_input[1])
+        quantity.append(split_input[1])
 
         for i in range(len_ingredient):
             lst.append(split_input[3:][i])
 
-        dish_dict[dish] = (quant, lst)
+        dish_dict[dish] = (quantity, lst)
 
     cnt -= 1
     next_level = ' '.join(split_input[3 + len_ingredient:])
@@ -58,43 +58,43 @@ def read_dish(inpt, cnt):
 
 
 def append_dish_to_list():
-    for key in dish_dict.keys():
-        quantity = ''.join(dish_dict[key][0])
-        key = Dish(key, int(quantity), dish_dict[key][1])
-        list_of_dish.append(key)
+    for dish_key in dish_dict.keys():
+        dish_quantity = ''.join(dish_dict[dish_key][0])
+        dish_key = Dish(dish_key, int(dish_quantity), dish_dict[dish_key][1])
+        list_of_dish.append(dish_key)
 
 
 def sum_dct():
-    first_dish_dict = list_of_dish[0].get_ingredients()
-    second_dish_dict = list_of_dish[1].get_ingredients()
-    for key, values in first_dish_dict.items():
-        for key_1, values_1 in second_dish_dict.items():
+    ingredients_1 = list_of_dish[0].get_ingredients()
+    ingredients_2 = list_of_dish[1].get_ingredients()
+    for key, values in ingredients_1.items():
+        for key_1, values_1 in ingredients_2.items():
             if key == key_1:
-                first_dish_dict[key] = [values[0] + values_1[0], values[1]]
-    sum_dict = second_dish_dict | first_dish_dict
+                ingredients_1[key] = [values[0] + values_1[0], values[1]]
+    sum_dict = ingredients_2 | ingredients_1
     return sum_dict
 
 
-def price(summ, nexxt):
+def price(combined_ingredients, price_list):
     total_price = 0
     pars_dict = {}
-    dd = {}
+    result_dict = {}
     count_3 = 0
-    neo = nexxt.split()
-    list_prices = nexxt.split()[1:]
-    for i in range(int(neo[0])):
+    split_price_list = price_list.split()
+    list_prices = price_list.split()[1:]
+    for i in range(int(split_price_list[0])):
         pars_dict[list_prices[i + count_3]] = [list_prices[i + 1 + count_3], int(list_prices[i + 2 + count_3]),
                                                list_prices[i + 3 + count_3]]
         count_3 += 3
-    for key, value in summ.items():
+    for key, value in combined_ingredients.items():
         for key_p, value_p in pars_dict.items():
             if key == key_p and value[1] == value_p[2] and value[0] <= value_p[1]:
-                dd[key] = 1
+                result_dict[key] = 1
                 total_price += int(value_p[0])
             elif key == key_p and (value[1] == 'cnt' and value_p[2] == 'tens'):
                 value_p[1] *= 10
                 if key == key_p and value[0] <= value_p[1]:
-                    dd[key] = 1
+                    result_dict[key] = 1
                     total_price += int(value_p[0])
                 elif key == key_p and value[0] > value_p[1]:
                     cnt = 1
@@ -102,12 +102,12 @@ def price(summ, nexxt):
                     while value[0] > value_p[1]:
                         value_p[1] += intermediate
                         cnt += 1
-                    dd[key] = cnt
+                    result_dict[key] = cnt
                     total_price += (int(value_p[0]) * cnt)
             elif key == key_p and (value[1] == 'ml' and value_p[2] == 'l'):
                 value_p[1] *= 1000
                 if key == key_p and value[0] <= value_p[1]:
-                    dd[key] = 1
+                    result_dict[key] = 1
                     total_price += int(value_p[0])
                 elif key == key_p and value[0] > value_p[1]:
                     cnt = 1
@@ -115,7 +115,7 @@ def price(summ, nexxt):
                     while value[0] > value_p[1]:
                         value_p[1] += intermediate
                         cnt += 1
-                    dd[key] = cnt
+                    result_dict[key] = cnt
                     total_price += (int(value_p[0]) * cnt)
             elif key == key_p and value[1] == value_p[2] and value[0] > value_p[1]:
                 cnt = 1
@@ -123,11 +123,29 @@ def price(summ, nexxt):
                 while value[0] > value_p[1]:
                     value_p[1] += intermediate
                     cnt += 1
-                dd[key] = cnt
+                result_dict[key] = cnt
                 total_price += (int(value_p[0]) * cnt)
-    print(dd)
+    pars_result_dict = {total_price: ''}
+    for key, value in result_dict.items():
+        pars_result_dict[key] = value
+    return pars_result_dict
 
-    return total_price
+
+def energy_value(pars_dct, result1):
+    data_dict = {}
+    count_4 = 0
+    for i in range(len(result1) + 1):
+        data_dict[pars_dct[0+count_4]] = [pars_dct[1+count_4], pars_dct[2+count_4], pars_dct[3+count_4],
+                                          pars_dct[4+count_4], pars_dct[6+count_4], pars_dct[6+count_4]]
+        count_4 += 7
+    print(data_dict)
+
+    ingredients_1 = list_of_dish[0].get_ingredients()
+    ingredients_2 = list_of_dish[1].get_ingredients()
+
+    print(ingredients_1)
+    print(ingredients_2)
+
 
 
 class Dish:
@@ -154,7 +172,15 @@ def main():
     to_next = read_dish(input_1[1:], count)
     append_dish_to_list()
     summ = sum_dct()
-    print(price(summ, to_next))
+    result_1 = price(summ, to_next)
+    len_next = int(to_next.split()[0]) * 4
+    to_next_2 = to_next.split()[len_next + 1:]
+    # print(to_next_2)
+    # for key, value in result_1.items():
+    #     print(key, value)
+
+    energy_value(to_next_2[1:], summ)
+
 
 
 if __name__ == '__main__':
