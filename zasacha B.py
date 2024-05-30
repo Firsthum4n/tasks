@@ -1,4 +1,7 @@
-x, y = map(int, input().split())
+from math import prod
+
+x, y = map(int, input('2 числа через пробел: ').split())
+
 
 x_list = []
 y_list = []
@@ -21,28 +24,33 @@ def rec_1(x_y, cnt, lst):
 
     return lst
 
-def nok(x_r, y_r):
+
+def nok(x_k, y_k):
     data = []
-    for i in x_r:
+    for i in x_k:
         data.append(i)
-        for j in y_r:
-            if j not in data:
-                data.append(j)
-    return data
+    for j in y_k:
+        if j not in data:
+            data.append(j)
+        data.sort()
+    result = prod(data)
+
+    return result
 
 
-
+def nod(x_d, y_d):
+    if y_d == 0:
+        return x_d
+    else:
+        return nod(y_d, x_d % y_d)
 
 
 s = rec_1(x, count, x_list)
-print(s)
-d = rec_1(y, count, y_list)
-print(d)
 
+d = rec_1(y, count, y_list)
+
+
+print(nod(x, y))
 print(nok(s, d))
 
 
-# if y % x != 0:
-#     print(0)
-# else:
-#     rec_1(x)
