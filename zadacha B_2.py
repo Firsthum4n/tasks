@@ -2,7 +2,6 @@ from math import prod
 
 x, y = map(int, input('2 числа через пробел: ').split())
 
-
 x_list = []
 y_list = []
 count = 2
@@ -37,13 +36,11 @@ def nok(x_k, y_k):
 
     return result
 
-
 def nod(x_d, y_d):
     if y_d == 0:
         return x_d
     else:
         return nod(y_d, x_d % y_d)
-
 
 s = rec_1(x, count, x_list)
 
