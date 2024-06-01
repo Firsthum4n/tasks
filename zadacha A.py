@@ -139,12 +139,10 @@ def energy_value(pars_dct, result1):
                                           pars_dct[4+count_4], pars_dct[6+count_4], pars_dct[6+count_4]]
         count_4 += 7
     print(data_dict)
+    sandwich = list_of_dish[0].ingredients
+    omlet = list_of_dish[1].ingredients
 
-    ingredients_1 = list_of_dish[0].get_ingredients()
-    ingredients_2 = list_of_dish[1].get_ingredients()
 
-    print(ingredients_1)
-    print(ingredients_2)
 
 
 
@@ -179,9 +177,8 @@ def main():
     # for key, value in result_1.items():
     #     print(key, value)
 
-    energy_value(to_next_2[1:], summ)
-
+    print(list_of_dish[1].ingredients)
 
 
 if __name__ == '__main__':
-    main()
+   main()

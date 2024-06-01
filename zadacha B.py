@@ -1,4 +1,4 @@
-from math import prod
+from zadacha_B_2 import nod
 x, y = map(int, input('2 числа через пробел: ').split())
 
 
@@ -18,14 +18,14 @@ def res_1(nod_x, nok_y):
 
     lst.clear()
     for value in data_1.values():
-        if value[0] % nod_x == 0 and value[1] % nod_x == 0:
+        if (value[0] % nod_x == 0 and value[1] % nod_x == 0
+                and nod(value[0], value[1]) == nod_x):
+
             lst.append(value)
             count_1 += 1
 
     return (f'всего {count_1} вариант(ов) закрытых ключей (p,q), таких, '
             f'что открытым ключом для них является {(x, y)}: {lst}')
-
-
 
 
 print(res_1(x, y))

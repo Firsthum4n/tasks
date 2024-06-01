@@ -1,6 +1,5 @@
 from math import prod
-
-x, y = map(int, input('2 числа через пробел: ').split())
+# x, y = map(int, input('2 числа через пробел: ').split())
 
 x_list = []
 y_list = []
@@ -42,12 +41,12 @@ def nod(x_d, y_d):
     else:
         return nod(y_d, x_d % y_d)
 
-s = rec_1(x, count, x_list)
-
-d = rec_1(y, count, y_list)
-
-
-print(nod(x, y))
-print(nok(s, d))
+# s = rec_1(x, count, x_list)
+#
+# d = rec_1(y, count, y_list)
+#
+#
+# print(nod(x, y))
+# print(nok(s, d))
 
 
